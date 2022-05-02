@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="{{ Core.Config.language }}">
+  <head>
+    <meta charset="utf-8"/>
+
+    {% if Core.Head.redirect|length %}
+      <meta http-equiv="refresh" content="{{ Core.Head.redirect.delay ~ ';URL=' ~ Core.Head.redirect.url }}"/>
+    {% endif %}
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <title>
+      {{ Core.Head.getTitle() ~ (Core.Head.getTitle() and Core.Head.shortName ? ' | ' : '') ~ (Core.Head.shortName ? Core.Head.shortName : '') }}
+    </title>
+    <meta name="description" content="{{ Core.Head.metadescription }}"/>
+    <meta name="keywords" content="{{ Core.Head.metakeywords }}"/>
+
+    <link rel="stylesheet" type="text/css" media="screen, print" href="main.min.css"/>
+
+    {% include 'Controller/Page/Template/head.twig' %}
+  </head>
+
+  <body>
+  {# Will be replaced by the page content #}
+  <!--PAGE-->
+
+  <script>window.JS_DATA = {{ aJsData|json_encode|default('{}') }};</script>
+
+  <script type="text/javascript" src="main.min.js"></script>
+
+  {# Modal to load at the end of the page load #}
+  {% if Core.Modal.getAfterLoading() %}
+    {{ Core.Modal.getAfterLoading.getView() }}
+  {% endif %}
+  </body>
+</html>

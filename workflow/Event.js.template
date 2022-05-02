@@ -1,0 +1,30 @@
+import { AbstractEvent } from 'hamtaro.js';
+
+/**
+ * @author {{AUTHOR}} <{{EMAIL}}>
+ */
+export default class {{NAME}} extends AbstractEvent {
+    /**
+     * @inheritDoc
+     * @see AbstractEvent.getEvent
+     */
+    getEvent() {
+        return 'click';
+    }
+
+    /**
+     * @inheritDoc
+     * @see AbstractEvent.getSelector
+     */
+    getSelector() {
+        return '.your_selector';
+    }
+
+    /**
+     * @inheritDoc
+     * @see AbstractEvent.handler
+     */
+    handler() {
+        console.log("Handled!");
+    }
+}

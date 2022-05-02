@@ -1,0 +1,22 @@
+import { AbstractComponent } from 'hamtaro.js';
+
+/**
+ * @author {{AUTHOR}} <{{EMAIL}}>
+ */
+export default class {{NAME}} extends AbstractComponent {
+  /**
+   * @inheritDoc
+   * @see AbstractPage.getCtrl
+   */
+  getCtrl() {
+    return '{{CTRL}}';
+  }
+
+  /**
+   * @inheritDoc
+   * @see AbstractPage.init
+   */
+  init() {
+
+  }
+}

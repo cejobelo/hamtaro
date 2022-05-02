@@ -1,0 +1,19 @@
+<?php
+namespace App\Controller\Component\{{NAME}};
+
+use Hamtaro\Controller\Component\AbstractComponent;
+
+/**
+ * @author {{AUTHOR}} <{{EMAIL}}>
+ */
+class {{NAME}} extends AbstractComponent
+{
+    /**
+     * @inheritDoc
+     * @see AbstractPage::beforeRendering()
+     */
+    public function beforeRendering()
+    {
+
+    }
+}

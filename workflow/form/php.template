@@ -1,0 +1,20 @@
+<?php
+namespace App\Controller\Form\{{NAME}};
+
+use Hamtaro\Controller\Form\AbstractForm;
+use Hamtaro\Controller\Page\Url;
+
+/**
+ * @author {{AUTHOR}} <{{EMAIL}}>
+ */
+class {{NAME}} extends AbstractForm
+{
+    /**
+     * @inheritDoc
+     * @see AbstractForm::beforeRendering()
+     */
+    public function beforeRendering()
+    {
+        $this->Core->Head()->setTitle("{{NAME}} page");
+    }
+}

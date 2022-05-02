@@ -1,0 +1,46 @@
+import { AbstractModal } from 'hamtaro.js';
+
+/**
+ * @author {{AUTHOR}} <{{EMAIL}}>
+ */
+export default class {{NAME}} extends AbstractModal {
+  /**
+   * @inheritDoc
+   * @see AbstractModal.getCtrl
+   */
+  getCtrl() {
+    return '{{CTRL}}';
+  }
+
+  /**
+   * @inheritDoc
+   * @see AbstractModal.show
+   */
+  show(event) {
+
+  }
+
+  /**
+   * @inheritDoc
+   * @see AbstractModal.shown
+   */
+  shown(event) {
+
+  }
+
+  /**
+   * @inheritDoc
+   * @see AbstractModal.hide
+   */
+  hide(event) {
+
+  }
+
+  /**
+   * @inheritDoc
+   * @see AbstractModal.hidden
+   */
+  hidden(event) {
+
+  }
+}

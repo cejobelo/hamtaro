@@ -1,0 +1,2 @@
+.hamtaro-form[data-ctrl="{{CTRL}}"]
+  background-color: red

@@ -1,0 +1,21 @@
+{
+    "name": "cejobelo/hamtaro",
+    "description": "Hamtaro, the new web framework for front-end / back-end development with Php and Javascript.",
+    "license": "MIT",
+    "keywords": ["hamtaro", "framework"],
+    "autoload": {
+        "psr-4": {
+            "Hamtaro\\": "src/",
+            "Workflow\\": "workflow/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Phil'dy Jocelyn Belcou",
+            "email": "pj.belcou@gmail.com"
+        }
+    ],
+    "require": {
+        "ext-json": "*"
+    }
+}

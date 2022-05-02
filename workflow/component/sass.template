@@ -1,0 +1,2 @@
+.hamtaro-component[data-ctrl="{{CTRL}}"]
+  background-color: red

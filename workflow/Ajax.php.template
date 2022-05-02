@@ -1,0 +1,28 @@
+<?php
+namespace App\Controller\Ajax;
+
+use Hamtaro\Controller\Ajax\AbstractAjaxRequest;
+
+/**
+ * @author {{AUTHOR}} <{{EMAIL}}>
+ */
+class {{NAME}} extends AbstractAjaxRequest
+{
+    /**
+     * @inheritDoc
+     * @see AbstractAjaxRequest::RequestParamConfigs()
+     */
+    public function RequestParamConfigs()
+    {
+        return [];
+    }
+
+    /**
+     * @inheritDoc
+     * @see AbstractAjaxRequest::executeAndGetResponse()
+     */
+    public function executeAndGetResponse(array $aParams)
+    {
+        return $this->Core->Response()->getSuccess("Your AjaxRequest is working");
+    }
+}

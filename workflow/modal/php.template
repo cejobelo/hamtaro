@@ -1,0 +1,20 @@
+<?php
+namespace App\Controller\Modal\{{NAME}};
+
+use Hamtaro\Controller\Modal\AbstractModal;
+
+/**
+ * @author {{AUTHOR}} <{{EMAIL}}>
+ */
+class {{NAME}} extends AbstractModal
+{
+    /**
+     * Returns the modale title.
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return '{{NAME}}';
+    }
+}

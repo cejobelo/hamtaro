@@ -1,0 +1,46 @@
+import { AbstractForm } from 'hamtaro.js';
+
+/**
+ * @author {{AUTHOR}} <{{EMAIL}}>
+ */
+export default class {{NAME}} extends AbstractForm {
+  /**
+   * @inheritDoc
+   * @see AbstractModal.getCtrl
+   */
+  getCtrl() {
+    return '{{CTRL}}';
+  }
+
+  /**
+   * @inheritDoc
+   * @see AbstractModal.beforeSubmit
+   */
+  beforeSubmit() {
+
+  }
+
+  /**
+   * @inheritDoc
+   * @see AbstractModal.afterSubmit
+   */
+  afterSubmit() {
+
+  }
+
+  /**
+   * @inheritDoc
+   * @see AbstractModal.success
+   */
+  success(Response) {
+
+  }
+
+  /**
+   * @inheritDoc
+   * @see AbstractModal.error
+   */
+  error(Response) {
+
+  }
+}
