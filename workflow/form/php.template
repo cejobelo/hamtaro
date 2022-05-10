@@ -2,7 +2,6 @@
 namespace App\Controller\Form\{{NAME}};
 
 use Hamtaro\Controller\Form\AbstractForm;
-use Hamtaro\Controller\Page\Url;
 
 /**
  * @author {{AUTHOR}} <{{EMAIL}}>
@@ -11,10 +10,10 @@ class {{NAME}} extends AbstractForm
 {
     /**
      * @inheritDoc
-     * @see AbstractForm::beforeRendering()
+     * @see AbstractForm::executeAndGetResponse()
      */
-    public function beforeRendering()
+    public function executeAndGetResponse(array $aParams)
     {
-        $this->Core->Head()->setTitle("{{NAME}} page");
+        return $this->Core->Response()->setMessage("{{NAME}} form");
     }
 }

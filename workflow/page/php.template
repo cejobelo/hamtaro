@@ -16,7 +16,7 @@ class {{NAME}} extends AbstractPage
     public function Urls()
     {
         return [
-            new Url('/{{URL}}'),
+            new Url('/{{NAME}}'),
         ];
     }
 

@@ -9,7 +9,7 @@ use Hamtaro\Controller\Modal\AbstractModal;
 class {{NAME}} extends AbstractModal
 {
     /**
-     * Returns the modale title.
+     * Returns the modal title.
      *
      * @return string
      */
