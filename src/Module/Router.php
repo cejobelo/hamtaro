@@ -32,7 +32,7 @@ class Router extends AbstractModule
             # The controllers allowed to be loaded are specified in src/config.php
             if (!$this->Core->Config()->isAllowedNamespace($sCtrl))
             {
-                return $this->Core->Response()->getFailure("Ctrl not allowed : {$aParams['ctrl']}")->sendAjax();
+                return $this->Core->Response()->getFailure("The Ctrl « {$aParams['ctrl']} » isn't specified in your src/config.php file")->sendAjax();
             }
 
             # Controller instantiation
@@ -40,7 +40,7 @@ class Router extends AbstractModule
 
             if (!$Controller)
             {
-                return $this->Core->Response()->getFailure("Unknown ctrl : $sCtrl")->sendAjax();
+                return $this->Core->Response()->getFailure("Unknown Ctrl : $sCtrl")->sendAjax();
             }
 
             # Loading a modal
@@ -48,7 +48,7 @@ class Router extends AbstractModule
             {
                 if (!$Controller->isAllowed())
                 {
-                    return $this->Core->Response()->getFailure("Not allowed")->sendAjax();
+                    return $this->Core->Response()->getFailure("Ctrl expressly not allowed : $sCtrl")->sendAjax();
                 }
 
                 return $Controller->Response()->getSuccess("Nickel")->sendAjax();
@@ -59,7 +59,7 @@ class Router extends AbstractModule
             {
                 if (!$Controller->isAllowed())
                 {
-                    return $this->Core->Response()->getFailure("Not allowed")->sendAjax();
+                    return $this->Core->Response()->getFailure("Ctrl expressly not allowed : $sCtrl")->sendAjax();
                 }
 
                 $Controller->checkRequestParams($Controller, $aParams, 2021);
