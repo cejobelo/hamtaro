@@ -4,7 +4,6 @@ namespace Hamtaro\Controller;
 use Exception;
 use Hamtaro\Controller\Form\AbstractForm;
 use Hamtaro\Core;
-use Hamtaro\Module\Response;
 
 /**
  * A controller.
