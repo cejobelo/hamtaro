@@ -21,6 +21,7 @@
 
     "require": {
         "ext-json": "*",
-        "twig/twig": "^3.3"
+        "twig/twig": "^2.0.0",
+        "coercive/render": "^0.0.0"
     }
 }
