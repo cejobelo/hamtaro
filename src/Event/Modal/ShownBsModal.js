@@ -1,5 +1,4 @@
 import { AbstractEvent, Modals } from 'hamtaro.js';
-import $ from "jquery";
 
 /**
  * @author Phil'dy Jocelyn Belcou <pj.belcou@gmail.com>
