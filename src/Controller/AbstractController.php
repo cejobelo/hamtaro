@@ -104,7 +104,7 @@ class AbstractController
     }
 
     /**
-     * Returns the ctrl.
+     * Returns the Ctrl.
      *
      * @return string
      */

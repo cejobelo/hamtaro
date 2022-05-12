@@ -30,7 +30,7 @@ class Ui extends AbstractModule
                 $sNamespace = "App\\Controller\\Component\\$sId\\$sId";
                 preg_replace('`(\\\\.+)$`', "$1$1", $sNamespace);
 
-                # The controllers allowed to be loaded are specified in src/config.php
+                # The controllers allowed to be loaded are specified in src/main.php
                 if (!$this->Core->Config()->isAllowedNamespace($sNamespace))
                 {
                     throw new Exception("Not allowed : $sNamespace");
@@ -51,7 +51,7 @@ class Ui extends AbstractModule
                 $sNamespace = "App\\Controller\\Form\\$sCtrl\\$sCtrl";
                 preg_replace('`(\\\\.+)$`', "$1$1", $sNamespace);
 
-                # The controllers allowed to be loaded are specified in src/config.php
+                # The controllers allowed to be loaded are specified in src/main.php
                 if (!$this->Core->Config()->isAllowedNamespace($sNamespace))
                 {
                     throw new Exception("Not allowed : $sNamespace");
@@ -81,7 +81,7 @@ class Ui extends AbstractModule
      */
     public function getIndexFilepath()
     {
-        return 'Controller/page/index.twig';
+        return 'Controller/Page/index.twig';
     }
 
     /**
@@ -93,6 +93,9 @@ class Ui extends AbstractModule
     {
         return [
             'Core' => $this->Core,
+            'aJsData' => [
+                'url' => $this->Core->Request()->getUrl(),
+            ],
         ];
     }
 }

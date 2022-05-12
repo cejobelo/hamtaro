@@ -74,7 +74,7 @@ abstract class AbstractModal extends AbstractComponent
      */
     public function getTemplate()
     {
-        return 'Controller/Modal/template.twig';
+        return 'Template/modal.twig';
     }
 
     /**

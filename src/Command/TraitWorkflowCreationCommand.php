@@ -1,16 +1,15 @@
 <?php
-namespace Hamtaro\Script\Workflow;
+namespace Hamtaro\Command;
 
 use Composer\Script\Event;
 use Exception;
-use Hamtaro\Script\AbstractScript;
 
 /**
- * A workflow script.
+ * Create files with templates for your workflow.
  *
  * @author Phil'dy Jocelyn Belcou <pj.belcou@gmail.com>
  */
-abstract class AbstractWorkflowScript extends AbstractScript
+trait TraitWorkflowCreationCommand
 {
     /**
      * Returns the folder name in src/.
@@ -29,7 +28,7 @@ abstract class AbstractWorkflowScript extends AbstractScript
     /**
      * @inheritDoc
      * @throws Exception
-     * @see AbstractScript::run()
+     * @see AbstractCommand::run()
      */
     public static function run(Event $Event)
     {
@@ -56,23 +55,27 @@ abstract class AbstractWorkflowScript extends AbstractScript
             mkdir($sFolderTarget, 0777, true);
         }
 
-        $aConfig = include realpath("$sVendorDir/../src/config.php");
-        $sWorkflowDir = "$sVendorDir/cejobelo/hamtaro/workflow";
+        $aConfig = include realpath("$sVendorDir/../src/main.php");
+        $sWorkflowDir = "$sVendorDir/cejobelo/hamtaro/src/Workflow";
+        $sAppWorkflowDir = realpath("$sVendorDir/../src/Workflow");
 
         foreach (static::getTemplates() as $sTemplate)
         {
             preg_match('`^(?:.*[\.|\/])?([a-zA-Z]+)\..+$`', $sTemplate, $aMatches);
             $sExtension = $aMatches[1] ?? '';
+            $sWorkflowFile = is_file($sAppWorkflowDir) ? "$sAppWorkflowDir/$sTemplate" : "$sWorkflowDir/$sTemplate";
 
-            if (is_file("$sWorkflowDir/$sTemplate"))
+            if (!is_file($sWorkflowFile))
             {
-                $sContent = file_get_contents("$sWorkflowDir/$sTemplate");
-                $sContent = str_replace('{{AUTHOR}}', $aConfig['author'], $sContent);
-                $sContent = str_replace('{{EMAIL}}', $aConfig['email'], $sContent);
-                $sContent = str_replace('{{NAME}}', $sClassName, $sContent);
-                $sContent = str_replace('{{CTRL}}', $sCtrl, $sContent);
-                file_put_contents("$sFolderTarget/$sClassName.$sExtension", $sContent);
+                throw new Exception("Worflow template doesn't exist : $sTemplate");
             }
+
+            $sContent = file_get_contents($sWorkflowFile);
+            $sContent = str_replace('{{AUTHOR}}', $aConfig['author'], $sContent);
+            $sContent = str_replace('{{EMAIL}}', $aConfig['email'], $sContent);
+            $sContent = str_replace('{{NAME}}', $sClassName, $sContent);
+            $sContent = str_replace('{{CTRL}}', $sCtrl, $sContent);
+            file_put_contents("$sFolderTarget/$sClassName.$sExtension", $sContent);
         }
     }
 }

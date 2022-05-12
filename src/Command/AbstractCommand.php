@@ -1,5 +1,5 @@
 <?php
-namespace Hamtaro\Script;
+namespace Hamtaro\Command;
 
 use Composer\Script\Event;
 
@@ -8,7 +8,7 @@ use Composer\Script\Event;
  *
  * @author Phil'dy Jocelyn Belcou <pj.belcou@gmail.com>
  */
-abstract class AbstractScript
+abstract class AbstractCommand
 {
     /**
      * Run the script.

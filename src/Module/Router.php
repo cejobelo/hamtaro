@@ -29,10 +29,10 @@ class Router extends AbstractModule
             preg_match('`.+\\\\(.+)$`', $sCtrl, $aMatches);
             $sCtrl = "$sCtrl\\$aMatches[1]";
 
-            # The controllers allowed to be loaded are specified in src/config.php
+            # The controllers allowed to be loaded are specified in src/main.php
             if (!$this->Core->Config()->isAllowedNamespace($sCtrl))
             {
-                return $this->Core->Response()->getFailure("The Ctrl « {$aParams['ctrl']} » isn't specified in your src/config.php file")->sendAjax();
+                return $this->Core->Response()->getFailure("The Ctrl « {$aParams['ctrl']} » isn't specified in your src/main.php file")->sendAjax();
             }
 
             # Controller instantiation

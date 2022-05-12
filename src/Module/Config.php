@@ -13,7 +13,7 @@ use Hamtaro\Core;
 class Config extends AbstractModule
 {
     /**
-     * The configuration by src/config.php
+     * The configuration by src/main.php
      *
      * @var array
      */
@@ -35,7 +35,7 @@ class Config extends AbstractModule
     {
         parent::__construct($Core);
         $this->sBasepath = (string) realpath(getcwd() . '/../');
-        $this->aConfig = include "$this->sBasepath/src/config.php";
+        $this->aConfig = include "$this->sBasepath/src/main.php";
     }
 
     /**

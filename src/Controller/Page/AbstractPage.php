@@ -17,7 +17,7 @@ abstract class AbstractPage extends AbstractComponent
      */
     public function getTemplate()
     {
-        return 'Controller/Page/Template/main.twig';
+        return 'Template/page.twig';
     }
 
     /**
