@@ -18,14 +18,18 @@
 
     <link rel="stylesheet" type="text/css" media="screen, print" href="main.min.css"/>
 
-    {% include 'Controller/Page/Template/head.twig' %}
+    {% include 'Template/head.twig' %}
   </head>
 
   <body>
   {# Will be replaced by the page content #}
   <!--PAGE-->
 
-  <script>window.JS_DATA = {{ aJsData|json_encode|default('{}') }};</script>
+  <script>
+    {% for key, value in jsData %}
+      window['{{ key }}'] = {{ value|json_encode|default('{}') }};
+    {% endfor %}
+  </script>
 
   <script type="text/javascript" src="main.min.js"></script>
 

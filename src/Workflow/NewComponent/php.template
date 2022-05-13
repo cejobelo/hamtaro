@@ -4,6 +4,8 @@ namespace App\Controller\Component\{{NAME}};
 use Hamtaro\Controller\Component\AbstractComponent;
 
 /**
+ * {{CTRL}} back-end.
+ *
  * @author {{AUTHOR}} <{{EMAIL}}>
  */
 class {{NAME}} extends AbstractComponent

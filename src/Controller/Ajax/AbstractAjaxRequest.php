@@ -14,8 +14,7 @@ abstract class AbstractAjaxRequest extends AbstractController
     /**
      * Execute and return the Response instance.
      *
-     * @param array $aParams
      * @return Response
      */
-    abstract public function executeAndGetResponse(array $aParams);
+    abstract public function executeAndGetResponse();
 }

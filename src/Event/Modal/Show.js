@@ -27,11 +27,14 @@ export default class Show extends AbstractEvent {
      * @see AbstractEvent.handler
      */
     handler(event, element) {
+        console.log('handled');
         event.preventDefault();
         event.stopImmediatePropagation();
         event.stopPropagation();
 
         Modals.closeCurrent();
+
+        console.log('event.currentTarget.dataset', event.currentTarget.dataset);
 
         Modals.show(element.dataset.modal, event.currentTarget.dataset);
     }

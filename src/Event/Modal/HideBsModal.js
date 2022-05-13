@@ -17,7 +17,7 @@ export default class HideBsModal extends AbstractEvent {
      * @see AbstractEvent.getSelector
      */
     getSelector() {
-        return '.modal';
+        return '.hamtaro-modal';
     }
 
     /**
@@ -25,33 +25,19 @@ export default class HideBsModal extends AbstractEvent {
      * @see AbstractEvent.handler
      */
     handler(event, element) {
-        let eModal = document.querySelector('.modal.show'),
-            eDialog = document.querySelector('.modal.show .modal-dialog');
-
-        if ($(element).hasClass('.modal')) {
-            element.dispatchEvent(oShownEvent);
-        } else {
-            $(element).parents('.modal')[0].dispatchEvent(oShownEvent);
+        let eModal = document.querySelector('.modal.show');
+        if (!eModal) {
+            return;
         }
 
-        if (eModal) {
-            let oEvent = new Event('hide.modal'),
-                oModal = Modals.get(eModal.dataset.filepath);
+        let oModal = Modals.get(eModal.dataset.ctrl);
 
-            if (oModal) {
-                if (oModal.isClosable()) {
-                    oModal.hide(oEvent);
-                    eModal.dispatchEvent(oEvent);
-                    eDialog.classList.add('fadeOut');
-                    eDialog.classList.remove('slideInDown');
-                }
-            } else {
-                eModal.dispatchEvent(oEvent);
-                eDialog.classList.add('fadeOut');
-                eDialog.classList.remove('slideInDown');
+        if (oModal) {
+            if (oModal.isClosable()) {
+                oModal.hide(event);
             }
-
-            App.urlParam('modal', '');
         }
+
+        App.urlParam('modal', '');
     }
 }

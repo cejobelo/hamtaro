@@ -12,7 +12,7 @@ class {{NAME}} extends AbstractForm
      * @inheritDoc
      * @see AbstractForm::executeAndGetResponse()
      */
-    public function executeAndGetResponse(array $aParams)
+    public function executeAndGetResponse()
     {
         return $this->Core->Response()->setMessage("{{NAME}} form");
     }

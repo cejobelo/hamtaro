@@ -1,9 +1,9 @@
 import { AbstractEvent } from 'hamtaro.js';
 
 /**
- * @author {{AUTHOR}} <{{EMAIL}}>
+ * @author Phil'dy Jocelyn Belcou <pj.belcou@gmail.com>
  */
-export default class {{NAME}} extends AbstractEvent {
+export default class GoPage extends AbstractEvent {
     /**
      * @inheritDoc
      * @see AbstractEvent.getEvent
@@ -17,7 +17,7 @@ export default class {{NAME}} extends AbstractEvent {
      * @see AbstractEvent.getSelector
      */
     getSelector() {
-        return '.your_selector';
+        return '[data-gopage]';
     }
 
     /**
@@ -25,6 +25,6 @@ export default class {{NAME}} extends AbstractEvent {
      * @see AbstractEvent.handler
      */
     handler(event, element) {
-        console.log("{{NAME}} handled!");
+        window.location.href = window.URLS[element.dataset.gopage];
     }
 }

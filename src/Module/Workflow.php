@@ -1,53 +1,33 @@
 <?php
-namespace Hamtaro\Command;
+namespace Hamtaro\Module;
 
-use Composer\Script\Event;
 use Exception;
 
 /**
- * Create files with templates for your workflow.
+ * The Workflow module.
  *
  * @author Phil'dy Jocelyn Belcou <pj.belcou@gmail.com>
  */
-trait TraitWorkflowCreationCommand
+class Workflow extends AbstractModule
 {
     /**
-     * Returns the folder name in src/.
+     * Create a controller.
      *
-     * @return string
-     */
-    abstract public static function getSrcFolder();
-
-    /**
-     * Returns the template path.
-     *
-     * @return string[]
-     */
-    abstract public static function getTemplates();
-
-    /**
-     * @inheritDoc
+     * @param string $sCtrl
+     * @param string $sSrcFolder
+     * @param array $aTemplates
+     * @return void
      * @throws Exception
-     * @see AbstractCommand::run()
      */
-    public static function run(Event $Event)
+    public function createController(string $sCtrl, string $sSrcFolder, array $aTemplates)
     {
-        $aArguments = $Event->getArguments() ?? [];
-        $sCtrl = $aArguments[0] ?? '';
-
-        if (!$sCtrl)
-        {
-            throw new Exception("Argument 1 is required : CamelCaseName");
-        }
-
         preg_match('`/?([a-zA-Z]+)$`', $sCtrl, $aMatches);
         $sClassName = $aMatches[1] ?? '';
-
-        $sVendorDir = $Event->getComposer()->getConfig()->get('vendor-dir');
-        $sProjectPath = realpath("$sVendorDir/..");
-        $sSrcFolder = static::getSrcFolder();
-        $sFolderTarget = "$sProjectPath/src/$sSrcFolder/";
-        $sFolderTarget .= (count(static::getTemplates()) > 1) ? $sCtrl : '';
+        
+        $sBasepath = $this->Core->Config()->getBasepath();
+        $sVendorDir = "$sBasepath/vendor";
+        $sFolderTarget = "$sBasepath/src/$sSrcFolder/";
+        $sFolderTarget .= (count($aTemplates) > 1) ? $sCtrl : '';
 
         # Create the page folder
         if (!is_dir($sFolderTarget))
@@ -55,11 +35,11 @@ trait TraitWorkflowCreationCommand
             mkdir($sFolderTarget, 0777, true);
         }
 
-        $aConfig = include realpath("$sVendorDir/../src/main.php");
+        $aConfig = include realpath("$sBasepath/src/main.php");
         $sWorkflowDir = "$sVendorDir/cejobelo/hamtaro/src/Workflow";
         $sAppWorkflowDir = realpath("$sVendorDir/../src/Workflow");
 
-        foreach (static::getTemplates() as $sTemplate)
+        foreach ($aTemplates as $sTemplate)
         {
             preg_match('`^(?:.*[\.|\/])?([a-zA-Z]+)\..+$`', $sTemplate, $aMatches);
             $sExtension = $aMatches[1] ?? '';

@@ -14,6 +14,9 @@ window.FORMS = {};
 // Will contain modal instances
 window.MODALS = {};
 
+// Will contain page instances
+window.PAGES = {};
+
 // Initialization of events
 let aEventsInstances = [],
     aHamtaroEvents = require.context('./Event', true, /\.js$/).keys(),
@@ -70,56 +73,9 @@ $(document).ready(() => {
             let PageClass = require('../../../../src/Controller/Page/' + path).default,
                 PageInstance = new PageClass;
 
-            if (PageInstance.getCtrl() === 'string' && PageInstance.getRoute() === this_.ROUTE) {
-                PageInstance.init();
-            }
-            else if (Array.isArray(page.getRoute())) {
-                if (page.getRoute().indexOf(window.JS_DATA['ROUTE']) !== -1) {
-                    page.init();
-                }
-            }
+            PageInstance.init();
 
-            // Initialisation des évènements de la page
-            let events = page.events();
-            if (events) {
-                Events.addEventHandlers(events).bindEventHandlers();
-            }
-        }
-    }
-});
-
-// The page is loaded
-$(document).ready(() => {
-    let paths = require.context('../../../../src/Controller/Page', true, /\.js$/).keys();
-
-    for (let key in paths) {
-        if (paths.hasOwnProperty(key)) {
-            let found = paths[key].match(/\.\/(.+\.js)/),
-                path = found[1] || '';
-
-            if (path) {
-                let page = require('Page/' + path).default;
-                page = new page();
-
-                console.log('App.ROUTE', this_.ROUTE);
-                console.log('page.getRoute()', page.getRoute());
-
-                // Exécution du script lié à la route
-                if (typeof page.getRoute() === 'string' && page.getRoute() === this_.ROUTE) {
-                    page.init();
-                }
-                else if (Array.isArray(page.getRoute())) {
-                    if (page.getRoute().indexOf(window.JS_DATA['ROUTE']) !== -1) {
-                        page.init();
-                    }
-                }
-
-                // Initialisation des évènements de la page
-                let events = page.events();
-                if (events) {
-                    Events.addEventHandlers(events).bindEventHandlers();
-                }
-            }
+            window.PAGES[PageInstance.getCtrl()] = PageInstance;
         }
     }
 });

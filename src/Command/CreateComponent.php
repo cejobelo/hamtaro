@@ -8,13 +8,11 @@ use Composer\Script\Event;
  *
  * @author Phil'dy Jocelyn Belcou <pj.belcou@gmail.com>
  */
-class CreateComponent extends AbstractCommand
+class CreateComponent extends AbstractWorkflowCreationCommand
 {
-    use TraitWorkflowCreationCommand;
-
     /**
      * @inheritDoc
-     * @see TraitWorkflowCreationCommand::getSrcFolder()
+     * @see AbstractWorkflowCreationCommand::getSrcFolder()
      */
     public static function getSrcFolder()
     {
@@ -23,7 +21,7 @@ class CreateComponent extends AbstractCommand
 
     /**
      * @inheritDoc
-     * @see TraitWorkflowCreationCommand::getTemplates()
+     * @see AbstractWorkflowCreationCommand::getTemplates()
      */
     public static function getTemplates()
     {

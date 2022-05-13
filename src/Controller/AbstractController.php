@@ -2,8 +2,13 @@
 namespace Hamtaro\Controller;
 
 use Exception;
+use Hamtaro\Controller\Ajax\AbstractAjaxRequest;
+use Hamtaro\Controller\Component\AbstractComponent;
 use Hamtaro\Controller\Form\AbstractForm;
+use Hamtaro\Controller\Modal\AbstractModal;
+use Hamtaro\Controller\Page\AbstractPage;
 use Hamtaro\Core;
+use JsonSerializable;
 
 /**
  * A controller.
@@ -12,7 +17,7 @@ use Hamtaro\Core;
  *
  * @author Phil'dy Jocelyn Belcou <pj.belcou@gmail.com>
  */
-class AbstractController
+class AbstractController implements JsonSerializable
 {
     /**
      * The Core instance.
@@ -29,6 +34,13 @@ class AbstractController
     protected array $aParams = [];
 
     /**
+     * The inputs.
+     *
+     * @var array $aInputs
+     */
+    protected array $aInputs = [];
+
+    /**
      * The constructor.
      *
      * @param Core $Core
@@ -39,48 +51,31 @@ class AbstractController
     {
         $this->Core = $Core;
 
-        if (!$this instanceof AbstractForm)
+        foreach ($this->ParamConfigs() as $ParamConfig)
         {
-            $this->checkRequestParams($this, $aParams);
+            if (array_key_exists($ParamConfig->getName(), $aParams))
+            {
+                $sTypeValue = $ParamConfig->getTypeValue();
+                $mValue = $aParams[$ParamConfig->getName()];
+                settype($mValue, $sTypeValue);
+                $this->aParams[$ParamConfig->getName()] = $mValue;
+            }
+
+            elseif ($ParamConfig->isRequired())
+            {
+                throw new Exception("Missing controller param : {$ParamConfig->getName()}");
+            }
         }
     }
 
     /**
-     * Checks a controller's RequestParam Configs.
+     * Returns the params configs for your $this->aParams.
      *
-     * @param AbstractController $Controller
-     * @param array $aParams
-     * @param mixed $mExceptionCode
-     * @throws Exception
+     * @return ParamConfig[]
      */
-    public function checkRequestParams(AbstractController $Controller, array $aParams, $mExceptionCode = 0)
+    public function ParamConfigs()
     {
-        $aRawParams = array_merge($_GET, $_POST, $aParams);
-
-        foreach ($Controller->RequestParamConfigs() as $RequestParamConfig)
-        {
-            if (array_key_exists($RequestParamConfig->getName(), $aRawParams))
-            {
-                $sTypeValue = $RequestParamConfig->getTypeValue();
-                $mValue = $aRawParams[$RequestParamConfig->getName()];
-
-                if (!class_exists($sTypeValue)) {
-                    settype($mValue, $sTypeValue);
-                }
-
-                $Controller->setParam($RequestParamConfig->getName(), $mValue);
-            }
-
-            elseif ($RequestParamConfig->isRequired())
-            {
-                throw new Exception("Incomplete request : {$RequestParamConfig->getName()}", $mExceptionCode);
-            }
-
-            else
-            {
-                $Controller->setParam($RequestParamConfig->getName(), null);
-            }
-        }
+        return [];
     }
 
     /**
@@ -88,7 +83,7 @@ class AbstractController
      *
      * @return RequestParamConfig[]
      */
-    public function RequestParamConfigs()
+    public function InputConfigs()
     {
         return [];
     }
@@ -146,7 +141,7 @@ class AbstractController
         $sFilename = (string) preg_replace("`App\\\\`", '', $sFilename);
         $sFilename = (string) str_replace('\\', '/', $sFilename);
         $sHamtaroSrc = $this->Core->Config()->getHamtaroSrc();
-        $sProjectSrc = $this->Core->Config()->getProjectSrc();
+        $sAppSrc = $this->Core->Config()->getApplicationSrc();
 
         if ($bAbsolute)
         { # is Hamtaro controller
@@ -155,10 +150,10 @@ class AbstractController
                 $sFilename = "$sHamtaroSrc/$sFilename";
             }
 
-            # Is project controller
-            elseif (is_file("$sProjectSrc/$sFilename.php"))
+            # Is application controller
+            elseif (is_file("$sAppSrc/$sFilename.php"))
             {
-                $sFilename = "$sProjectSrc/$sFilename";
+                $sFilename = "$sAppSrc/$sFilename";
             }
 
             # Neither of the two, exception
@@ -182,11 +177,84 @@ class AbstractController
     }
 
     /**
-     * @return $this
+     * @return bool
      */
-    public function setParam(string $sKey, $mValue)
+    public function isAjaxRequest()
     {
-        $this->aParams[$sKey] = $mValue;
+        return $this instanceof AbstractAjaxRequest;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isComponent()
+    {
+        return $this instanceof AbstractComponent;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isForm()
+    {
+        return $this instanceof AbstractForm;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isModal()
+    {
+        return $this instanceof AbstractModal;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPage()
+    {
+        return $this instanceof AbstractPage;
+    }
+
+    /**
+     * Check inputs.
+     *
+     * @param array $aInputs
+     * @param mixed $mExceptionCode
+     * @return $this
+     * @throws Exception
+     */
+    public function checkInputs(array $aInputs = [], $mExceptionCode = 0)
+    {
+        foreach ($this->InputConfigs() as $InputConfig)
+        {
+            if (array_key_exists($InputConfig->getName(), $aInputs))
+            {
+                $sTypeValue = $InputConfig->getTypeValue();
+                $mValue = $aInputs[$InputConfig->getName()];
+                settype($mValue, $sTypeValue);
+                $this->aInputs[$InputConfig->getName()] = $mValue;
+            }
+
+            elseif ($InputConfig->isRequired())
+            {
+                throw new Exception("Missing input : {$InputConfig->getName()}", $mExceptionCode);
+            }
+        }
+
         return $this;
+    }
+
+    /**
+     * @inheritDoc
+     * @throws Exception
+     * @see JsonSerializable::jsonSerialize()
+     */
+    public function jsonSerialize() {
+        return [
+            'ctrl' => $this->getCtrl(),
+            'namespace' => $this->getNamespace(),
+            'filepath' => $this->getFilepath(),
+        ];
     }
 }

@@ -22,7 +22,7 @@ class Ui extends AbstractModule
     public function RenderTwig()
     {
         $Core = $this->Core;
-        return (new RenderTwig($this->Core->Config()->getProjectSrc()))
+        return (new RenderTwig($this->Core->Config()->getApplicationSrc()))
             ->setCache(false, $this->Core->Config()->getTmpDir())
             ->addGlobals($this->getGlobalVariables())
             ->addFunction('Component', function ($sId, array $aParams = []) use ($Core)
@@ -68,7 +68,7 @@ class Ui extends AbstractModule
                 return $Form->getView();
             })
             ->addDirectories([
-                $this->Core->Config()->getProjectSrc(),
+                $this->Core->Config()->getApplicationSrc(),
                 $this->Core->Config()->getHamtaroSrc(),
                 $this->Core->Config()->getTmpDir(),
             ])->setFileExtension('.twig');
@@ -81,7 +81,7 @@ class Ui extends AbstractModule
      */
     public function getIndexFilepath()
     {
-        return 'Controller/Page/index.twig';
+        return 'Template/index.twig';
     }
 
     /**
@@ -93,8 +93,9 @@ class Ui extends AbstractModule
     {
         return [
             'Core' => $this->Core,
-            'aJsData' => [
+            'jsData' => [
                 'url' => $this->Core->Request()->getUrl(),
+                'URLS' => $this->Core->Cache()->getUrls(),
             ],
         ];
     }

@@ -1,6 +1,8 @@
 import { AbstractPage } from 'hamtaro.js';
 
 /**
+ * {{CTRL}} page.
+ *
  * @author {{AUTHOR}} <{{EMAIL}}>
  */
 export default class {{NAME}} extends AbstractPage {
@@ -9,7 +11,7 @@ export default class {{NAME}} extends AbstractPage {
    * @see AbstractPage.getCtrl
    */
   getCtrl() {
-    return '{{NAME}}';
+    return '{{CTRL}}';
   }
 
   /**
@@ -17,6 +19,6 @@ export default class {{NAME}} extends AbstractPage {
    * @see AbstractPage.init
    */
   init(oData) {
-
+    console.log('{{CTRL}} is loaded.');
   }
 }

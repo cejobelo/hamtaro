@@ -10,9 +10,9 @@ class {{NAME}} extends AbstractAjaxRequest
 {
     /**
      * @inheritDoc
-     * @see AbstractAjaxRequest::RequestParamConfigs()
+     * @see AbstractAjaxRequest::InputConfigs()
      */
-    public function RequestParamConfigs()
+    public function InputConfigs()
     {
         return [];
     }
@@ -21,8 +21,8 @@ class {{NAME}} extends AbstractAjaxRequest
      * @inheritDoc
      * @see AbstractAjaxRequest::executeAndGetResponse()
      */
-    public function executeAndGetResponse(array $aParams)
+    public function executeAndGetResponse()
     {
-        return $this->Core->Response()->getSuccess("Your AjaxRequest is working");
+        return $this->Core->Response()->getSuccess("Your ajax request is working");
     }
 }

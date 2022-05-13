@@ -1,2 +1,2 @@
 .hamtaro-page[data-ctrl="{{CTRL}}"]
-  background-color: red
+  background-color: transparent

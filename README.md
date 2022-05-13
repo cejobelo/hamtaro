@@ -9,7 +9,9 @@
 
 ## About
 
-With Hamtaro framework, create your modern and stable web application in a strict, simplified and organized environment using Php with Javascript.
+Create your modern and stable web application in a strict, simplified and organized environment.
+
+Do yourself a favor : use Hamtaro framework.
 
 ## Technologies
 
@@ -17,11 +19,12 @@ With Hamtaro framework, create your modern and stable web application in a stric
 | [Composer](https://getcomposer.org) | [Npm](https://www.npmjs.com) | [Node.js](https://nodejs.org)
 | [Webpack](https://webpack.js.org) | [Babel](https://babeljs.io) | [Sass](https://sass-lang.com)
 | [Twig](https://twig.symfony.com) | [Bootstrap](https://getbootstrap.com) | [jQuery](https://jquery.com)
+| [Json](https://www.json.org/json-en.html)
 
 ## Commands
 
-Using [composer scripts](https://getcomposer.org/doc/articles/scripts.md), Hamtaro framework provides you with
-scripts to improve your workflow and save you considerable time during development.
+Using [composer scripts](https://getcomposer.org/doc/articles/scripts.md), improve your workflow and save you
+considerable time during development.
 
 | Command                     | Description                    | Arguments                        |
 |-----------------------------|--------------------------------|----------------------------------|

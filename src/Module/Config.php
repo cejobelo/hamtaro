@@ -1,8 +1,6 @@
 <?php
 namespace Hamtaro\Module;
 
-use Hamtaro\Controller\AbstractController;
-use Hamtaro\Controller\Page\AbstractPage;
 use Hamtaro\Core;
 
 /**
@@ -34,18 +32,18 @@ class Config extends AbstractModule
     public function __construct(Core $Core)
     {
         parent::__construct($Core);
-        $this->sBasepath = (string) realpath(getcwd() . '/../');
-        $this->aConfig = include "$this->sBasepath/src/main.php";
-    }
+        
+        if (is_file(realpath(getcwd() . '/src/main.php')))
+        {
+            $this->sBasepath = (string) getcwd();
+        }
 
-    /**
-     * Returns the id of the application.
-     *
-     * @return string
-     */
-    public function getAppId()
-    {
-        return $this->aConfig['app_id'];
+        else if (is_file(realpath(getcwd() . '/../src/main.php')))
+        {
+            $this->sBasepath = (string) realpath(getcwd() . '/../');
+        }
+
+        $this->aConfig = include "$this->sBasepath/src/main.php";
     }
 
     /**
@@ -69,11 +67,11 @@ class Config extends AbstractModule
     }
 
     /**
-     * Returns the project src.
+     * Returns the application src.
      *
      * @return string
      */
-    public function getProjectSrc()
+    public function getApplicationSrc()
     {
         return "$this->sBasepath/src";
     }
@@ -93,31 +91,9 @@ class Config extends AbstractModule
      *
      * @return string[]
      */
-    public function getNamespaces()
-    {
-        return array_merge(
-            $this->aConfig['controllers']['ajax'] ?? [],
-            $this->aConfig['controllers']['component'] ?? [],
-            $this->aConfig['controllers']['form'] ?? [],
-            $this->aConfig['controllers']['modal'] ?? [],
-            $this->aConfig['controllers']['page'] ?? []
-        );
-    }
-
-    /**
-     * Returns the allowed controllers in the project.
-     *
-     * @return AbstractController[]
-     */
     public function getControllers()
     {
-        foreach ($this->getNamespaces() as $sNamespace)
-        {
-            /** @var AbstractController $Controller */
-            $Controller = new $sNamespace($this->Core);
-            $aControllers[] = $Controller;
-        }
-        return $aControllers ?? [];
+        return $this->aConfig['controllers'];
     }
 
     /**
@@ -128,25 +104,6 @@ class Config extends AbstractModule
      */
     public function isAllowedNamespace(string $sNamespace)
     {
-        return in_array($sNamespace, $this->getNamespaces(), true);
-    }
-
-    /**
-     * Returns the pages in the project.
-     *
-     * @return AbstractPage[]
-     */
-    public function getPages()
-    {
-        $aNamespaces = $this->aConfig['controllers']['page'];
-
-        foreach ($aNamespaces as $sNamespace)
-        {
-            /** @var AbstractPage $Page */
-            $Page = new $sNamespace($this->Core);
-            $aPages[] = $Page;
-        }
-
-        return $aPages ?? [];
+        return in_array($sNamespace, $this->getControllers(), true);
     }
 }

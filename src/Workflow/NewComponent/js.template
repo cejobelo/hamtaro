@@ -1,6 +1,8 @@
 import { AbstractComponent } from 'hamtaro.js';
 
 /**
+ * {{CTRL}} front-end.
+ *
  * @author {{AUTHOR}} <{{EMAIL}}>
  */
 export default class {{NAME}} extends AbstractComponent {
@@ -16,7 +18,7 @@ export default class {{NAME}} extends AbstractComponent {
    * @inheritDoc
    * @see AbstractPage.init
    */
-  init() {
-
+  init(oData) {
+    console.log('{{CTRL}} is loaded.');
   }
 }

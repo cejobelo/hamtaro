@@ -17,7 +17,7 @@ export default class {{NAME}} extends AbstractForm {
    * @see AbstractModal.beforeSubmit
    */
   beforeSubmit() {
-
+    console.log('{{CTRL}} beforeSubmit');
   }
 
   /**
@@ -25,7 +25,7 @@ export default class {{NAME}} extends AbstractForm {
    * @see AbstractModal.afterSubmit
    */
   afterSubmit() {
-
+    console.log('{{CTRL}} afterSubmit');
   }
 
   /**
@@ -33,7 +33,7 @@ export default class {{NAME}} extends AbstractForm {
    * @see AbstractModal.success
    */
   success(Response) {
-
+    console.log('{{CTRL}} success', Response);
   }
 
   /**
@@ -41,6 +41,6 @@ export default class {{NAME}} extends AbstractForm {
    * @see AbstractModal.error
    */
   error(Response) {
-
+    console.log('{{CTRL}} error', Response);
   }
 }

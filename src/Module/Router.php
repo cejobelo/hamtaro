@@ -2,8 +2,10 @@
 namespace Hamtaro\Module;
 
 use Exception;
+use Hamtaro\Controller\Ajax\AbstractAjaxRequest;
 use Hamtaro\Controller\Form\AbstractForm;
 use Hamtaro\Controller\Modal\AbstractModal;
+use Hamtaro\Controller\Page\Error\Error;
 
 /**
  * The Router.
@@ -20,7 +22,7 @@ class Router extends AbstractModule
      */
     public function run()
     {
-        $aParams = json_decode(file_get_contents("php://input"), true);
+        $aParams = array_merge($_GET, $_POST, json_decode(file_get_contents("php://input"), true) ?: []);
 
         if (is_array($aParams) && array_key_exists('ctrl', $aParams))
         {
@@ -61,22 +63,41 @@ class Router extends AbstractModule
                 {
                     return $this->Core->Response()->getFailure("Ctrl expressly not allowed : $sCtrl")->sendAjax();
                 }
+                
+                return $Controller->checkInputs($aParams, 21)->executeAndGetResponse()->sendAjax();
+            }
 
-                $Controller->checkRequestParams($Controller, $aParams, 2021);
+            # Running an ajax request
+            elseif ($Controller instanceof AbstractAjaxRequest)
+            {
+                if (!$Controller->isAllowed())
+                {
+                    return $this->Core->Response()->getFailure("Ctrl expressly not allowed : $sCtrl")->sendAjax();
+                }
 
-                return $Controller->executeAndGetResponse($aParams)->sendAjax();
+                return $Controller->checkInputs($aParams, 21)->executeAndGetResponse()->sendAjax();
             }
         }
 
         # Loading a page
         $sUrl = $this->Core->Request()->getUrl();
-        foreach ($this->Core->Config()->getPages() as $Page)
+
+        foreach ($this->Core->Cache()->Pages() as $Page)
         {
             if ($Page->isMatching($sUrl))
             {
                 die($Page->getView());
             }
         }
+
+        $sDefaultCtrl = $this->getDefaultCtrlNamespace();
+        # The controllers allowed to be loaded are specified in src/main.php
+        if (!$this->Core->Config()->isAllowedNamespace($sDefaultCtrl))
+        {
+            return $this->Core->Response()->getFailure("{$sDefaultCtrl} isn't specified in your src/main.php file")->sendAjax();
+        }
+
+        die((new $sDefaultCtrl($this->Core, $aParams))->getView());
     }
 
     /**
@@ -89,7 +110,7 @@ class Router extends AbstractModule
      */
     public function getUrl(string $sCtrl, array $aReplacements = [])
     {
-        foreach ($this->Core->Config()->getPages() as $Page)
+        foreach ($this->Core->Cache()->Pages() as $Page)
         {
             if ($Page->getCtrl() === $sCtrl)
             {
@@ -105,5 +126,15 @@ class Router extends AbstractModule
         }
 
         throw new Exception("No default url for $sCtrl");
+    }
+
+    /**
+     * Returns the default namespace.
+     *
+     * @return string
+     */
+    public function getDefaultCtrlNamespace()
+    {
+        return Error::class;
     }
 }

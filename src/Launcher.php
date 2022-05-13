@@ -35,7 +35,7 @@ class Launcher
 
         catch (Exception $Exception)
         {
-            if ($Exception->getCode() === 2021)
+            if ($Exception->getCode() === 21)
             {
                 $Core->Response()->getFailure($Exception->getMessage())->sendAjax();
                 die;

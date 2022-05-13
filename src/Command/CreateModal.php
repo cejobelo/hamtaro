@@ -8,13 +8,11 @@ use Composer\Script\Event;
  *
  * @author Phil'dy Jocelyn Belcou <pj.belcou@gmail.com>
  */
-class CreateModal extends AbstractCommand
+class CreateModal extends AbstractWorkflowCreationCommand
 {
-    use TraitWorkflowCreationCommand;
-
     /**
      * @inheritDoc
-     * @see TraitWorkflowCreationCommand::getSrcFolder()
+     * @see AbstractWorkflowCreationCommand::getSrcFolder()
      */
     public static function getSrcFolder()
     {
@@ -23,7 +21,7 @@ class CreateModal extends AbstractCommand
 
     /**
      * @inheritDoc
-     * @see TraitWorkflowCreationCommand::getTemplates()
+     * @see AbstractWorkflowCreationCommand::getTemplates()
      */
     public static function getTemplates()
     {

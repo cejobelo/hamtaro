@@ -9,9 +9,8 @@ use Hamtaro\Controller\Modal\AbstractModal;
 class {{NAME}} extends AbstractModal
 {
     /**
-     * Returns the modal title.
-     *
-     * @return string
+     * @inheritDoc
+     * @see AbstractModal::getTitle()
      */
     public function getTitle()
     {

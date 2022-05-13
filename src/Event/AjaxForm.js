@@ -1,4 +1,5 @@
 import { Ajax, Form, AbstractEvent } from 'hamtaro.js';
+import $ from 'jquery';
 
 /**
  * Ajax Form.
@@ -49,6 +50,9 @@ export default class AjaxForm extends AbstractEvent {
 
         Ajax.submitForm(this.dataset.ctrl, oData).then((AxiosResponse) => {
             $this.removeClass('loading');
+            
+            console.log('FormContext', FormContext);
+            console.log('AxiosResponse', AxiosResponse);
 
             if (AxiosResponse['data']['success']) {
                 FormContext.success(AxiosResponse.data);

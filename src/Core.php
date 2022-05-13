@@ -3,6 +3,7 @@
 namespace Hamtaro;
 
 use Exception;
+use Hamtaro\Module\Cache;
 use Hamtaro\Module\Config;
 use Hamtaro\Module\Head;
 use Hamtaro\Module\Modals;
@@ -10,6 +11,7 @@ use Hamtaro\Module\Request;
 use Hamtaro\Module\Response;
 use Hamtaro\Module\Router;
 use Hamtaro\Module\Ui;
+use Hamtaro\Module\Workflow;
 
 /**
  * The Core.
@@ -25,6 +27,20 @@ class Core
      * @var array $Modules
      */
     private array $Modules = [];
+
+    /**
+     * Returns the Cache module instance.
+     *
+     * @return Cache
+     */
+    public function Cache()
+    {
+        if (array_key_exists(__METHOD__, $this->Modules)) {
+            return $this->Modules[__METHOD__];
+        }
+
+        return $this->Modules[__METHOD__] = new Cache($this);
+    }
 
     /**
      * Returns the Config module instance.
@@ -123,5 +139,19 @@ class Core
         }
 
         return $this->Modules[__METHOD__] = new Ui($this);
+    }
+
+    /**
+     * Returns the Workflow module instance.
+     *
+     * @return Workflow
+     */
+    public function Workflow()
+    {
+        if (array_key_exists(__METHOD__, $this->Modules)) {
+            return $this->Modules[__METHOD__];
+        }
+
+        return $this->Modules[__METHOD__] = new Workflow($this);
     }
 }
