@@ -1,4 +1,5 @@
 import { Modals, AbstractEvent } from 'hamtaro.js';
+import $ from 'jquery';
 
 /**
  * This event allows the display of a modal when clicked.
@@ -32,6 +33,8 @@ export default class Show extends AbstractEvent {
         event.stopPropagation();
 
         Modals.closeCurrent();
+
+        $('.dropdown-menu').removeClass('show');
 
         Modals.show(element.dataset.modal, event.currentTarget.dataset);
     }
