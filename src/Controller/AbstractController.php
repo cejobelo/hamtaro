@@ -2,11 +2,6 @@
 namespace Hamtaro\Controller;
 
 use Exception;
-use Hamtaro\Controller\Ajax\AbstractAjaxRequest;
-use Hamtaro\Controller\Component\AbstractComponent;
-use Hamtaro\Controller\Form\AbstractForm;
-use Hamtaro\Controller\Modal\AbstractModal;
-use Hamtaro\Controller\Page\AbstractPage;
 use Hamtaro\Core;
 use JsonSerializable;
 
@@ -22,7 +17,7 @@ class AbstractController implements JsonSerializable
     /**
      * The Core instance.
      *
-     * @var Core $Core
+     * @var Core|\App\Core $Core
      */
     protected Core $Core;
 
@@ -174,46 +169,6 @@ class AbstractController implements JsonSerializable
     public function isAllowed()
     {
         return true;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isAjaxRequest()
-    {
-        return $this instanceof AbstractAjaxRequest;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isComponent()
-    {
-        return $this instanceof AbstractComponent;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isForm()
-    {
-        return $this instanceof AbstractForm;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isModal()
-    {
-        return $this instanceof AbstractModal;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isPage()
-    {
-        return $this instanceof AbstractPage;
     }
 
     /**
