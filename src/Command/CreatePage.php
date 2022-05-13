@@ -1,35 +1,33 @@
 <?php
 namespace Hamtaro\Command;
 
-use Composer\Script\Event;
-
 /**
- * Create a new page to your Hamtaro project.
+ * Create a new page to your Hamtaro application.
  *
  * @author Phil'dy Jocelyn Belcou <pj.belcou@gmail.com>
  */
-class CreatePage extends AbstractWorkflowCreationCommand
+class CreatePage extends AbstractControllerWorkflowCommand
 {
     /**
      * @inheritDoc
-     * @see AbstractWorkflowCreationCommand::getSrcFolder()
+     * @see AbstractControllerWorkflowCommand::getSrcTarget()
      */
-    public static function getSrcFolder()
+    public static function getSrcTarget()
     {
         return 'Controller/Page';
     }
 
     /**
      * @inheritDoc
-     * @see AbstractWorkflowCreationCommand::getTemplates()
+     * @see AbstractControllerWorkflowCommand::getTemplates()
      */
     public static function getTemplates()
     {
         return [
-            'NewPage/js.template',
-            'NewPage/php.template',
-            'NewPage/sass.template',
-            'NewPage/twig.template',
+            'Page/js.template',
+            'Page/php.template',
+            'Page/sass.template',
+            'Page/twig.template',
         ];
     }
 }

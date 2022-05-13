@@ -1,32 +1,28 @@
 <?php
 namespace Hamtaro\Command;
 
-use Composer\Script\Event;
-
 /**
  * Create a new ajax request to your Hamtaro application.
  *
  * @author Phil'dy Jocelyn Belcou <pj.belcou@gmail.com>
  */
-class CreateAjaxRequest extends AbstractWorkflowCreationCommand
+class CreateAjaxRequest extends AbstractControllerWorkflowCommand
 {
     /**
      * @inheritDoc
-     * @see AbstractWorkflowCreationCommand::getSrcFolder()
+     * @see AbstractControllerWorkflowCommand::getSrcTarget()
      */
-    public static function getSrcFolder()
+    public static function getSrcTarget()
     {
         return 'Controller/Ajax';
     }
 
     /**
      * @inheritDoc
-     * @see AbstractWorkflowCreationCommand::getTemplates()
+     * @see AbstractControllerWorkflowCommand::getTemplates()
      */
     public static function getTemplates()
     {
-        return [
-            'Ajax.php.template',
-        ];
+        return 'Ajax.php.template';
     }
 }

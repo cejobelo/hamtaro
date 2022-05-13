@@ -15,11 +15,11 @@ class Workflow extends AbstractModule
      *
      * @param string $sCtrl
      * @param string $sSrcFolder
-     * @param array $aTemplates
+     * @param string|array $mTemplates
      * @return void
      * @throws Exception
      */
-    public function createController(string $sCtrl, string $sSrcFolder, array $aTemplates)
+    public function createController(string $sCtrl, string $sSrcFolder, $mTemplates)
     {
         preg_match('`/?([a-zA-Z]+)$`', $sCtrl, $aMatches);
         $sClassName = $aMatches[1] ?? '';
@@ -27,7 +27,7 @@ class Workflow extends AbstractModule
         $sBasepath = $this->Core->Config()->getBasepath();
         $sVendorDir = "$sBasepath/vendor";
         $sFolderTarget = "$sBasepath/src/$sSrcFolder/";
-        $sFolderTarget .= (count($aTemplates) > 1) ? $sCtrl : '';
+        $sFolderTarget .= is_array($mTemplates) ? $sCtrl : '';
 
         # Create the page folder
         if (!is_dir($sFolderTarget))
@@ -39,15 +39,37 @@ class Workflow extends AbstractModule
         $sWorkflowDir = "$sVendorDir/cejobelo/hamtaro/src/Workflow";
         $sAppWorkflowDir = realpath("$sVendorDir/../src/Workflow");
 
-        foreach ($aTemplates as $sTemplate)
+        if (is_array($mTemplates))
         {
-            preg_match('`^(?:.*[\.|\/])?([a-zA-Z]+)\..+$`', $sTemplate, $aMatches);
+            foreach ($mTemplates as $sTemplate)
+            {
+                preg_match('`^(?:.*[.|/])?([a-zA-Z]+)\..+$`', $sTemplate, $aMatches);
+                $sExtension = $aMatches[1] ?? '';
+                $sWorkflowFile = is_file($sAppWorkflowDir) ? "$sAppWorkflowDir/$sTemplate" : "$sWorkflowDir/$sTemplate";
+
+                if (!is_file($sWorkflowFile))
+                {
+                    throw new Exception("Worflow template doesn't exist : $sTemplate");
+                }
+
+                $sContent = file_get_contents($sWorkflowFile);
+                $sContent = str_replace('{{AUTHOR}}', $aConfig['author'], $sContent);
+                $sContent = str_replace('{{EMAIL}}', $aConfig['email'], $sContent);
+                $sContent = str_replace('{{NAME}}', $sClassName, $sContent);
+                $sContent = str_replace('{{CTRL}}', $sCtrl, $sContent);
+                file_put_contents("$sFolderTarget/$sClassName.$sExtension", $sContent);
+            }
+        }
+
+        else if (is_string($mTemplates))
+        {
+            preg_match('`^(?:.*[.|/])?([a-zA-Z]+)\..+$`', $mTemplates, $aMatches);
             $sExtension = $aMatches[1] ?? '';
-            $sWorkflowFile = is_file($sAppWorkflowDir) ? "$sAppWorkflowDir/$sTemplate" : "$sWorkflowDir/$sTemplate";
+            $sWorkflowFile = is_file($sAppWorkflowDir) ? "$sAppWorkflowDir/$mTemplates" : "$sWorkflowDir/$mTemplates";
 
             if (!is_file($sWorkflowFile))
             {
-                throw new Exception("Worflow template doesn't exist : $sTemplate");
+                throw new Exception("Worflow template doesn't exist : $mTemplates");
             }
 
             $sContent = file_get_contents($sWorkflowFile);
@@ -56,6 +78,11 @@ class Workflow extends AbstractModule
             $sContent = str_replace('{{NAME}}', $sClassName, $sContent);
             $sContent = str_replace('{{CTRL}}', $sCtrl, $sContent);
             file_put_contents("$sFolderTarget/$sClassName.$sExtension", $sContent);
+        }
+
+        else
+        {
+            throw new Exception("Invalid worflow templates");
         }
     }
 }

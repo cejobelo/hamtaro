@@ -1,35 +1,33 @@
 <?php
 namespace Hamtaro\Command;
 
-use Composer\Script\Event;
-
 /**
- * Creates a new component to your Hamtaro application.
+ * Create a new component to your Hamtaro application.
  *
  * @author Phil'dy Jocelyn Belcou <pj.belcou@gmail.com>
  */
-class CreateComponent extends AbstractWorkflowCreationCommand
+class CreateComponent extends AbstractControllerWorkflowCommand
 {
     /**
      * @inheritDoc
-     * @see AbstractWorkflowCreationCommand::getSrcFolder()
+     * @see AbstractControllerWorkflowCommand::getSrcTarget()
      */
-    public static function getSrcFolder()
+    public static function getSrcTarget()
     {
         return 'Controller/Component';
     }
 
     /**
      * @inheritDoc
-     * @see AbstractWorkflowCreationCommand::getTemplates()
+     * @see AbstractControllerWorkflowCommand::getTemplates()
      */
     public static function getTemplates()
     {
         return [
-            'NewComponent/js.template',
-            'NewComponent/php.template',
-            'NewComponent/sass.template',
-            'NewComponent/twig.template',
+            'Component/js.template',
+            'Component/php.template',
+            'Component/sass.template',
+            'Component/twig.template',
         ];
     }
 }

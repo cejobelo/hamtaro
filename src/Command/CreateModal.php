@@ -1,35 +1,33 @@
 <?php
 namespace Hamtaro\Command;
 
-use Composer\Script\Event;
-
 /**
  * Create a new modal to your Hamtaro application.
  *
  * @author Phil'dy Jocelyn Belcou <pj.belcou@gmail.com>
  */
-class CreateModal extends AbstractWorkflowCreationCommand
+class CreateModal extends AbstractControllerWorkflowCommand
 {
     /**
      * @inheritDoc
-     * @see AbstractWorkflowCreationCommand::getSrcFolder()
+     * @see AbstractControllerWorkflowCommand::getSrcTarget()
      */
-    public static function getSrcFolder()
+    public static function getSrcTarget()
     {
         return 'Controller/Modal';
     }
 
     /**
      * @inheritDoc
-     * @see AbstractWorkflowCreationCommand::getTemplates()
+     * @see AbstractControllerWorkflowCommand::getTemplates()
      */
     public static function getTemplates()
     {
         return [
-            'NewModal/js.template',
-            'NewModal/php.template',
-            'NewModal/sass.template',
-            'NewModal/twig.template',
+            'Modal/js.template',
+            'Modal/php.template',
+            'Modal/sass.template',
+            'Modal/twig.template',
         ];
     }
 }

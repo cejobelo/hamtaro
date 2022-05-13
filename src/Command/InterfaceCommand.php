@@ -4,17 +4,16 @@ namespace Hamtaro\Command;
 use Composer\Script\Event;
 
 /**
- * A script.
+ * Interface for all Hamtaro terminal commands.
  *
  * @author Phil'dy Jocelyn Belcou <pj.belcou@gmail.com>
  */
-abstract class AbstractCommand
+interface InterfaceCommand
 {
     /**
      * Run the script.
      *
-     * @param Event $Event
      * @return void
      */
-    abstract static public function run(Event $Event);
+    public static function run(Event $Event);
 }

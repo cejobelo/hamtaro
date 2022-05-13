@@ -6,21 +6,22 @@ use Exception;
 use Hamtaro\Core;
 
 /**
- * Create files with templates for your workflow.
+ * Create controller files with templates for improve your workflow.
  *
  * @author Phil'dy Jocelyn Belcou <pj.belcou@gmail.com>
  */
-abstract class AbstractWorkflowCreationCommand extends AbstractCommand
+abstract class AbstractControllerWorkflowCommand implements InterfaceCommand
 {
     /**
-     * Returns the folder name in src/.
+     * Returns the src target.
+     * Example : will return Event for src/Event.
      *
      * @return string
      */
-    abstract public static function getSrcFolder();
+    abstract public static function getSrcTarget();
 
     /**
-     * Returns the template path.
+     * Returns the template paths.
      *
      * @return string[]
      */
@@ -29,7 +30,7 @@ abstract class AbstractWorkflowCreationCommand extends AbstractCommand
     /**
      * @inheritDoc
      * @throws Exception
-     * @see AbstractCommand::run()
+     * @see InterfaceCommand::run()
      */
     public static function run(Event $Event)
     {
@@ -41,6 +42,6 @@ abstract class AbstractWorkflowCreationCommand extends AbstractCommand
             throw new Exception("Argument #1 is required : CamelCaseName");
         }
 
-        (new Core)->Workflow()->createController($sCtrl, static::getSrcFolder(), static::getTemplates());
+        (new Core)->Workflow()->createController($sCtrl, static::getSrcTarget(), static::getTemplates());
     }
 }

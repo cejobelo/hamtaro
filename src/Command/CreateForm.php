@@ -1,35 +1,33 @@
 <?php
 namespace Hamtaro\Command;
 
-use Composer\Script\Event;
-
 /**
- * Creates a new form to your Hamtaro application.
+ * Create a new form to your Hamtaro application.
  *
  * @author Phil'dy Jocelyn Belcou <pj.belcou@gmail.com>
  */
-class CreateForm extends AbstractWorkflowCreationCommand
+class CreateForm extends AbstractControllerWorkflowCommand
 {
     /**
      * @inheritDoc
-     * @see AbstractWorkflowCreationCommand::getSrcFolder()
+     * @see AbstractControllerWorkflowCommand::getSrcTarget()
      */
-    public static function getSrcFolder()
+    public static function getSrcTarget()
     {
         return 'Controller/Form';
     }
 
     /**
      * @inheritDoc
-     * @see AbstractWorkflowCreationCommand::getTemplates()
+     * @see AbstractControllerWorkflowCommand::getTemplates()
      */
     public static function getTemplates()
     {
         return [
-            'NewForm/js.template',
-            'NewForm/php.template',
-            'NewForm/sass.template',
-            'NewForm/twig.template',
+            'Form/js.template',
+            'Form/php.template',
+            'Form/sass.template',
+            'Form/twig.template',
         ];
     }
 }
