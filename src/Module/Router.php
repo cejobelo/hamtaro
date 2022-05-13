@@ -129,7 +129,7 @@ class Router extends AbstractModule
     }
 
     /**
-     * Returns the default namespace.
+     * Returns the default namespace to load.
      *
      * @return string
      */

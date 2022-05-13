@@ -20,7 +20,16 @@ class Launcher
     {
         try
         { # The Core instance will help us to manage each part of the application
-            $Core = new Core;
+            $sAppCore = "App\\Core";
+            if (class_exists($sAppCore))
+            {
+                $Core = new $sAppCore;
+            }
+
+            else
+            {
+                $Core = new Core;
+            }
         }
 
         catch (Exception $Exception)

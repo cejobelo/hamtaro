@@ -1,8 +1,8 @@
 <?php
-
 namespace Hamtaro;
 
 use Exception;
+use Hamtaro\Module\AbstractModule;
 use Hamtaro\Module\Cache;
 use Hamtaro\Module\Config;
 use Hamtaro\Module\Head;
@@ -14,8 +14,8 @@ use Hamtaro\Module\Ui;
 use Hamtaro\Module\Workflow;
 
 /**
- * The Core.
- * A class that groups the modules of Hamtaro.
+ * The Core class groups the modules of Hamtaro.
+ * You can override a module by creating it in src/Module, Hamtaro will find it.
  *
  * @author Phil'dy Jocelyn Belcou <pj.belcou@gmail.com>
  */
@@ -24,134 +24,136 @@ class Core
     /**
      * Modules.
      *
-     * @var array $Modules
+     * @var AbstractModule[] $Modules
      */
     private array $Modules = [];
 
     /**
      * Returns the Cache module instance.
      *
-     * @return Cache
+     * @return Cache|\App\Module\Cache|AbstractModule
      */
     public function Cache()
     {
-        if (array_key_exists(__METHOD__, $this->Modules)) {
-            return $this->Modules[__METHOD__];
-        }
-
-        return $this->Modules[__METHOD__] = new Cache($this);
+        return $this->getModuleInstance('Cache');
     }
 
     /**
      * Returns the Config module instance.
      *
-     * @return Config
+     * @return Config|\App\Module\Config|AbstractModule
      */
     public function Config()
     {
-        if (array_key_exists(__METHOD__, $this->Modules)) {
-            return $this->Modules[__METHOD__];
-        }
-
-        return $this->Modules[__METHOD__] = new Config($this);
+        return $this->getModuleInstance('Config');
     }
 
     /**
      * Returns the Head module instance.
      *
-     * @return Head
+     * @return Head|\App\Module\Head|AbstractModule
      */
     public function Head()
     {
-        if (array_key_exists(__METHOD__, $this->Modules)) {
-            return $this->Modules[__METHOD__];
-        }
-
-        return $this->Modules[__METHOD__] = new Head($this);
+        return $this->getModuleInstance('Head');
     }
 
     /**
      * Returns the Modals module instance.
      *
-     * @return Modals
+     * @return Modals|\App\Module\Modals|AbstractModule
      */
     public function Modals()
     {
-        if (array_key_exists(__METHOD__, $this->Modules)) {
-            return $this->Modules[__METHOD__];
-        }
-
-        return $this->Modules[__METHOD__] = new Modals($this);
+        return $this->getModuleInstance('Modals');
     }
 
     /**
      * Returns the Request module instance.
      *
-     * @return Request
+     * @return Request|\App\Module\Request|AbstractModule
      */
     public function Request()
     {
-        if (array_key_exists(__METHOD__, $this->Modules)) {
-            return $this->Modules[__METHOD__];
-        }
-
-        return $this->Modules[__METHOD__] = new Request($this);
+        return $this->getModuleInstance('Request');
     }
 
     /**
      * Returns the Response module instance.
      *
-     * @return Response
+     * @return Response|App\Module\Response|AbstractModule
      */
     public function Response()
     {
-        if (array_key_exists(__METHOD__, $this->Modules)) {
-            return $this->Modules[__METHOD__];
-        }
-
-        return $this->Modules[__METHOD__] = new Response($this);
+        return $this->getModuleInstance('Response');
     }
 
     /**
      * Returns the Router module instance.
      *
-     * @return Router
-     * @throws Exception
+     * @return Router|\App\Module\Router|AbstractModule
      */
     public function Router()
     {
-        if (array_key_exists(__METHOD__, $this->Modules)) {
-            return $this->Modules[__METHOD__];
-        }
-
-        return $this->Modules[__METHOD__] = new Router($this);
+        return $this->getModuleInstance('Router');
     }
 
     /**
      * Returns the Ui module instance.
      *
-     * @return Ui
+     * @return Ui|\App\Module\Ui|AbstractModule
      */
     public function Ui()
     {
-        if (array_key_exists(__METHOD__, $this->Modules)) {
-            return $this->Modules[__METHOD__];
-        }
-
-        return $this->Modules[__METHOD__] = new Ui($this);
+        return $this->getModuleInstance('Ui');
     }
 
     /**
      * Returns the Workflow module instance.
      *
-     * @return Workflow
+     * @return Workflow|\App\Module\Workflow|AbstractModule
      */
     public function Workflow()
     {
-        if (array_key_exists(__METHOD__, $this->Modules)) {
-            return $this->Modules[__METHOD__];
+        return $this->getModuleInstance('Workflow');
+    }
+
+    /**
+     * Returns the module instance.
+     *
+     * @return AbstractModule
+     */
+    protected function getModuleInstance(string $sModuleName)
+    {
+        try {
+            if (array_key_exists($sModuleName, $this->Modules)) {
+                return $this->Modules[$sModuleName];
+            }
+
+            $sAppModuleNamespace = "App\\Module\\$sModuleName";
+            $sHamtaroModuleNamespace = "Hamtaro\\Module\\$sModuleName";
+
+            if (class_exists($sAppModuleNamespace))
+            { # This module is overrided
+                $Module = new $sAppModuleNamespace($this);
+            }
+
+            else if (class_exists($sHamtaroModuleNamespace))
+            { # This module isn't overrided, use the default class
+                $Module = new $sHamtaroModuleNamespace($this);
+            }
+
+            else
+            { # No module found
+                throw new Exception("Module $sModuleName isn't defined");
+            }
+
+            return $this->Modules[$sModuleName] = $Module;
         }
 
-        return $this->Modules[__METHOD__] = new Workflow($this);
+        catch (Exception $Exception)
+        {
+            die($Exception->getMessage());
+        }
     }
 }
