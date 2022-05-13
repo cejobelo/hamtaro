@@ -1,3 +1,7 @@
+// polyfill
+import "core-js/stable";
+import "regenerator-runtime/runtime";
+
 // Main sass file
 import '../../../../src/main.sass';
 
