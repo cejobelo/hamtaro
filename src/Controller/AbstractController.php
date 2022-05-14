@@ -22,16 +22,18 @@ class AbstractController implements JsonSerializable
     protected Core $Core;
 
     /**
-     * The parameters.
+     * Parameters values.
      *
      * @var array $aParams
+     * @see \Hamtaro\Controller\AbstractController::ParamConfigs()
      */
     protected array $aParams = [];
 
     /**
-     * The inputs.
+     * Inputs values.
      *
      * @var array $aInputs
+     * @see \Hamtaro\Controller\AbstractController::InputConfigs()
      */
     protected array $aInputs = [];
 
@@ -64,9 +66,11 @@ class AbstractController implements JsonSerializable
     }
 
     /**
-     * Returns the params configs for your $this->aParams.
+     * Configure your params.
+     * They are available in $this->aParams.
      *
      * @return ParamConfig[]
+     * @see \Hamtaro\Controller\AbstractController::$aParams
      */
     public function ParamConfigs()
     {
@@ -74,9 +78,11 @@ class AbstractController implements JsonSerializable
     }
 
     /**
-     * Returns the RequestParamConfig array.
+     * Configure your inputs.
+     * They are available in $this->aInputs.
      *
-     * @return RequestParamConfig[]
+     * @return InputConfig[]
+     * @see \Hamtaro\Controller\AbstractController::$aInputs
      */
     public function InputConfigs()
     {

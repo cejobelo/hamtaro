@@ -10,7 +10,7 @@ use Hamtaro\Core;
  *
  * @author Phil'dy Jocelyn Belcou <pj.belcou@gmail.com>
  */
-abstract class AbstractControllerWorkflowCommand implements InterfaceCommand
+abstract class AbstractControllerWorkflowCommand extends AbstractCommand
 {
     /**
      * Returns the src target.
@@ -29,19 +29,23 @@ abstract class AbstractControllerWorkflowCommand implements InterfaceCommand
 
     /**
      * @inheritDoc
+     * @see AbstractCommand::ArgumentConfigs()
+     */
+    public static function ArgumentConfigs()
+    {
+        return [
+            new ArgumentConfig('#1', 'string', true, "the Ctrl"),
+        ];
+    }
+
+    /**
+     * @inheritDoc
      * @throws Exception
-     * @see InterfaceCommand::run()
+     * @see AbstractCommand::run()
      */
     public static function run(Event $Event)
     {
-        $aArguments = $Event->getArguments() ?? [];
-        $sCtrl = $aArguments[0] ?? '';
-
-        if (!$sCtrl)
-        {
-            throw new Exception("Argument #1 is required : CamelCaseName");
-        }
-
-        (new Core)->Workflow()->createController($sCtrl, static::getSrcTarget(), static::getTemplates());
+        $aArguments = static::checkArguments($Event->getArguments());
+        (new Core)->Workflow()->createController($aArguments['#1'], static::getSrcTarget(), static::getTemplates());
     }
 }

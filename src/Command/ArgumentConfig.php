@@ -1,22 +1,24 @@
 <?php
-namespace Hamtaro\Controller;
+namespace Hamtaro\Command;
 
 /**
- * A request param config.
+ * An argument config.
  *
+ * @see \Hamtaro\Command\AbstractCommand::ArgumentConfigs()
+ * 
  * @author Phil'dy Jocelyn Belcou <pj.belcou@gmail.com>
  */
-class RequestParamConfig
+class ArgumentConfig
 {
     /**
-     * The param's name.
+     * Input's name.
      *
      * @var string
      */
     private string $sName;
 
     /**
-     * The value's type.
+     * Input's type.
      *
      * @var string
      */
@@ -30,17 +32,26 @@ class RequestParamConfig
     private bool $bRequired;
 
     /**
+     * Argument's description.
+     *
+     * @var string
+     */
+    private string $sDescription;
+
+    /**
      * The constructor.
      *
      * @param string $sName
      * @param string $sTypeValue
      * @param bool $bRequired
+     * @param string $sDescription
      */
-    public function __construct(string $sName, string $sTypeValue, bool $bRequired)
+    public function __construct(string $sName, string $sTypeValue, bool $bRequired, string $sDescription)
     {
         $this->sName = $sName;
         $this->sTypeValue = $sTypeValue;
         $this->bRequired = $bRequired;
+        $this->sDescription = $sDescription;
     }
 
     /**
@@ -65,5 +76,13 @@ class RequestParamConfig
     public function isRequired(): bool
     {
         return $this->bRequired;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription(): string
+    {
+        return $this->sDescription;
     }
 }
