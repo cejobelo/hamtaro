@@ -22,14 +22,6 @@ class AbstractController implements JsonSerializable
     protected Core $Core;
 
     /**
-     * Parameters values.
-     *
-     * @var array $aParams
-     * @see \Hamtaro\Controller\AbstractController::ParamConfigs()
-     */
-    protected array $aParams = [];
-
-    /**
      * Inputs values.
      *
      * @var array $aInputs
@@ -41,40 +33,10 @@ class AbstractController implements JsonSerializable
      * The constructor.
      *
      * @param Core $Core
-     * @param array $aParams
-     * @throws Exception
      */
-    public function __construct(Core $Core, array $aParams = [])
+    public function __construct(Core $Core)
     {
         $this->Core = $Core;
-
-        foreach ($this->ParamConfigs() as $ParamConfig)
-        {
-            if (array_key_exists($ParamConfig->getName(), $aParams))
-            {
-                $sTypeValue = $ParamConfig->getTypeValue();
-                $mValue = $aParams[$ParamConfig->getName()];
-                settype($mValue, $sTypeValue);
-                $this->aParams[$ParamConfig->getName()] = $mValue;
-            }
-
-            elseif ($ParamConfig->isRequired())
-            {
-                throw new Exception("Missing controller param : {$ParamConfig->getName()}");
-            }
-        }
-    }
-
-    /**
-     * Configure your params.
-     * They are available in $this->aParams.
-     *
-     * @return ParamConfig[]
-     * @see \Hamtaro\Controller\AbstractController::$aParams
-     */
-    public function ParamConfigs()
-    {
-        return [];
     }
 
     /**

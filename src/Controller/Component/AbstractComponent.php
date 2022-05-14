@@ -15,6 +15,14 @@ use Hamtaro\Core;
 abstract class AbstractComponent extends AbstractController
 {
     /**
+     * Parameters values.
+     *
+     * @var array $aParams
+     * @see \Hamtaro\Controller\AbstractController::ParamConfigs()
+     */
+    protected array $aParams = [];
+
+    /**
      * The Wrapper instance.
      *
      * @var HtmlWrapper $Wrapper
@@ -30,16 +38,35 @@ abstract class AbstractComponent extends AbstractController
 
     /**
      * @inheritDoc
-     * @throws Exception
      * @see AbstractController::__construct()
+     * @param Core $Core
+     * @param array $aParams
+     * @throws Exception
      */
     public function __construct(Core $Core, array $aParams = [])
     {
-        parent::__construct($Core, $aParams);
+        parent::__construct($Core);
+
         $this->Wrapper = (new HtmlWrapper([
             'class' => 'hamtaro-component',
             'data-ctrl' => $this->getCtrl(),
         ]))->addAttrs($this->aParams['attrs'] ?? []);
+
+        foreach ($this->ParamConfigs() as $ParamConfig)
+        {
+            if (array_key_exists($ParamConfig->getName(), $aParams))
+            {
+                $sTypeValue = $ParamConfig->getTypeValue();
+                $mValue = $aParams[$ParamConfig->getName()];
+                settype($mValue, $sTypeValue);
+                $this->aParams[$ParamConfig->getName()] = $mValue;
+            }
+
+            elseif ($ParamConfig->isRequired())
+            {
+                throw new Exception("Missing component param : {$ParamConfig->getName()}");
+            }
+        }
     }
 
     /**
@@ -50,6 +77,18 @@ abstract class AbstractComponent extends AbstractController
     public function getTemplate()
     {
         return '';
+    }
+
+    /**
+     * Configure your params.
+     * They are available in $this->aParams.
+     *
+     * @return ParamConfig[]
+     * @see \Hamtaro\Controller\AbstractController::$aParams
+     */
+    public function ParamConfigs()
+    {
+        return [];
     }
 
     /**

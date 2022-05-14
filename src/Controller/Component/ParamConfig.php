@@ -1,10 +1,10 @@
 <?php
-namespace Hamtaro\Controller;
+namespace Hamtaro\Controller\Component;
 
 /**
- * An param config.
+ * A component param config.
  *
- * @see \Hamtaro\Controller\AbstractController::ParamConfigs()
+ * @see \Hamtaro\Controller\Component\AbstractComponent::ParamConfigs()
  *
  * @author Phil'dy Jocelyn Belcou <pj.belcou@gmail.com>
  */
